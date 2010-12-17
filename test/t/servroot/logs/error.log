@@ -1,0 +1,105 @@
+2010/12/17 04:18:38 [debug] 2314#0: bind() 0.0.0.0:1982 #6 
+2010/12/17 04:18:38 [notice] 2314#0: using the "kqueue" event method
+2010/12/17 04:18:38 [notice] 2314#0: nginx/0.8.52
+2010/12/17 04:18:38 [notice] 2314#0: built by gcc 4.2.1 20070719  [FreeBSD]
+2010/12/17 04:18:38 [notice] 2314#0: OS: FreeBSD 8.1-RELEASE
+2010/12/17 04:18:38 [notice] 2314#0: kern.osreldate: 801000, built on 801000
+2010/12/17 04:18:38 [notice] 2314#0: hw.ncpu: 1
+2010/12/17 04:18:38 [notice] 2314#0: net.inet.tcp.sendspace: 32768
+2010/12/17 04:18:38 [notice] 2314#0: kern.ipc.somaxconn: 128
+2010/12/17 04:18:38 [notice] 2314#0: getrlimit(RLIMIT_NOFILE): 3520:3520
+2010/12/17 04:18:38 [debug] 2315#0: write: 7, BFBFE3FA, 5, 0
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 2874F000:10240
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 2875F000:10240
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 28762000:10240
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 28765000:98304
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 2877D000:61440
+2010/12/17 04:18:38 [debug] 2315#0: malloc: 2878C000:61440
+2010/12/17 04:18:38 [debug] 2315#0: kevent set event: 6: ft:-1 fl:0005
+2010/12/17 04:18:38 [debug] 2315#0: worker cycle
+2010/12/17 04:18:38 [debug] 2315#0: kevent timer: -1, changes: 1
+2010/12/17 04:18:44 [debug] 2315#0: kevent events: 1
+2010/12/17 04:18:44 [debug] 2315#0: kevent: 6: ft:-1 fl:0000 ff:00000000 d:1 ud:2877D000
+2010/12/17 04:18:44 [debug] 2315#0: accept on 0.0.0.0:1982, ready: 1
+2010/12/17 04:18:44 [debug] 2315#0: posix_memalign: 2879B100:256 @16
+2010/12/17 04:18:44 [debug] 2315#0: *1 accept: 127.0.0.1 fd:7
+2010/12/17 04:18:44 [debug] 2315#0: *1 event timer add: 7: 60000:4069396088
+2010/12/17 04:18:44 [debug] 2315#0: *1 kevent set event: 7: ft:-1 fl:0025
+2010/12/17 04:18:44 [debug] 2315#0: timer delta: 6037
+2010/12/17 04:18:44 [debug] 2315#0: posted events 00000000
+2010/12/17 04:18:44 [debug] 2315#0: worker cycle
+2010/12/17 04:18:44 [debug] 2315#0: kevent timer: 60000, changes: 1
+2010/12/17 04:18:44 [debug] 2315#0: kevent events: 1
+2010/12/17 04:18:44 [debug] 2315#0: kevent: 7: ft:-1 fl:0020 ff:00000000 d:194 ud:2877D03C
+2010/12/17 04:18:44 [debug] 2315#0: *1 malloc: 2879F300:656
+2010/12/17 04:18:44 [debug] 2315#0: *1 malloc: 2872C400:1024
+2010/12/17 04:18:44 [debug] 2315#0: *1 posix_memalign: 28723000:4096 @16
+2010/12/17 04:18:44 [debug] 2315#0: *1 http process request line
+2010/12/17 04:18:44 [debug] 2315#0: *1 recv: eof:0, avail:194, err:0
+2010/12/17 04:18:44 [debug] 2315#0: *1 recv: fd:7 194 of 1024
+2010/12/17 04:18:44 [debug] 2315#0: *1 http request line: "GET / HTTP/1.1"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http uri: "/"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http args: ""
+2010/12/17 04:18:44 [debug] 2315#0: *1 http exten: ""
+2010/12/17 04:18:44 [debug] 2315#0: *1 http process request header line
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header: "TE: deflate,gzip;q=0.3"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header: "Connection: TE, close"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header: "Host: localhost:1982"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header: "User-Agent: Test::Nginx::LWP"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header: "Cookie: CAPTCHA_SESSION=7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http header done
+2010/12/17 04:18:44 [debug] 2315#0: *1 event timer del: 7: 4069396088
+2010/12/17 04:18:44 [debug] 2315#0: *1 rewrite phase: 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 test location: "/"
+2010/12/17 04:18:44 [debug] 2315#0: *1 using configuration "/"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http cl:-1 max:1048576
+2010/12/17 04:18:44 [debug] 2315#0: *1 rewrite phase: 2
+2010/12/17 04:18:44 [debug] 2315#0: *1 rewrite phase: 3
+2010/12/17 04:18:44 [debug] 2315#0: *1 session handler: store_shm_zone=00000000, store_index=-1, get_shm_zone=00000000, get_index=-1
+2010/12/17 04:18:44 [debug] 2315#0: *1 rewrite phase: 4
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script var
+2010/12/17 04:18:44 [debug] 2315#0: *1 parse header: "Cookie: CAPTCHA_SESSION=7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708"
+2010/12/17 04:18:44 [debug] 2315#0: *1 parse header: "Cookie: CAPTCHA_SESSION=7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script var: "7nV0tpVhGgxpP7Tz9JzVA=="
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script copy: ","
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script var: "1392559708"
+2010/12/17 04:18:44 [debug] 2315#0: *1 secure cookie: "7nV0tpVhGgxpP7Tz9JzVA==,1392559708"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script value: ""
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script equal
+2010/12/17 04:18:44 [debug] 2315#0: *1 http script if
+2010/12/17 04:18:44 [debug] 2315#0: *1 http finalize request: 403, "/?" a:1, c:1
+2010/12/17 04:18:44 [debug] 2315#0: *1 http special response: 403, "/?"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http set discard body
+2010/12/17 04:18:44 [debug] 2315#0: *1 HTTP/1.1 403 Forbidden
+Server: nginx/0.8.52
+Date: Fri, 17 Dec 2010 04:18:44 GMT
+Content-Type: text/html
+Content-Length: 169
+Connection: close
+
+2010/12/17 04:18:44 [debug] 2315#0: *1 write new buf t:1 f:0 287235F8, pos 287235F8, size: 150 file: 0, size: 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 http write filter: l:0 f:0 s:150
+2010/12/17 04:18:44 [debug] 2315#0: *1 http output filter "/?"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http copy filter: "/?"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http postpone filter "/?" 28723748
+2010/12/17 04:18:44 [debug] 2315#0: *1 write old buf t:1 f:0 287235F8, pos 287235F8, size: 150 file: 0, size: 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 write new buf t:0 f:0 00000000, pos 080CD4A0, size: 116 file: 0, size: 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 write new buf t:0 f:0 00000000, pos 080CCF20, size: 53 file: 0, size: 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 http write filter: l:1 f:0 s:319
+2010/12/17 04:18:44 [debug] 2315#0: *1 http write filter limit 0
+2010/12/17 04:18:44 [debug] 2315#0: *1 writev: 319 of 319
+2010/12/17 04:18:44 [debug] 2315#0: *1 http write filter 00000000
+2010/12/17 04:18:44 [debug] 2315#0: *1 http copy filter: 0 "/?"
+2010/12/17 04:18:44 [debug] 2315#0: *1 http finalize request: 0, "/?" a:1, c:1
+2010/12/17 04:18:44 [debug] 2315#0: *1 http request count:1 blk:0
+2010/12/17 04:18:44 [debug] 2315#0: *1 http close request
+2010/12/17 04:18:44 [debug] 2315#0: *1 http log handler
+2010/12/17 04:18:44 [debug] 2315#0: *1 free: 28723000, unused: 2092
+2010/12/17 04:18:44 [debug] 2315#0: *1 close http connection: 7
+2010/12/17 04:18:44 [debug] 2315#0: *1 free: 2872C400
+2010/12/17 04:18:44 [debug] 2315#0: *1 free: 2879F300
+2010/12/17 04:18:44 [debug] 2315#0: *1 free: 2879B100, unused: 56
+2010/12/17 04:18:44 [debug] 2315#0: timer delta: 1
+2010/12/17 04:18:44 [debug] 2315#0: posted events 00000000
+2010/12/17 04:18:44 [debug] 2315#0: worker cycle
+2010/12/17 04:18:44 [debug] 2315#0: kevent timer: -1, changes: 0

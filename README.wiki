@@ -1,0 +1,139 @@
+﻿= Name =
+
+'''nginx_secure_cookie_module''' - support secure cookie with Nginx
+
+
+= Status =
+
+This module is at its very early phase of development and considered highly experimental. But you're encouraged to test it out on your side and report any quirks that you experience.
+
+We need your help! If you find this module useful and/or interesting, please consider joining the development!
+
+
+= examples =
+
+== a simple example ==
+
+<geshi lang="nginx">
+
+location / {
+
+    secure_cookie $cookie_CAPTCHA_SESSION,$cookie_CAPTCHA_EXPIRES;
+    secure_cookie_md5 private_key$binary_remote_addr$cookie_CAPTCHA_EXPIRES;
+
+    if ($secure_cookie = "") {
+        return 403;
+    }
+
+    if ($secure_cookie = "0") {
+        return 403;
+    }
+
+    root   html;
+    index  index.html index.htm;
+}
+
+</geshi>
+
+And the request example is like this:
+
+<code>
+ $wget -d --header="Cookie: CAPTCHA_SESSION=k7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708" http://127.0.0.1/
+</code>
+
+= Description =
+
+Add the support of secure cookie with Nginx.
+
+
+= Directives =
+
+== secure_cookie ==
+
+'''syntax:'''''secure_cookie $md5_hash[,$expires_time]''
+
+'''default:''' ''none''
+
+'''context:''' ''http, server, location''
+
+'''description:''' This directive specifies the MD5 hash value and the expires time of this secure cookie. The $md5_hash should be encoded by Base64. The $expires_time is the seconds since 1970-01-01 00:00:00 UTC. If you did not add the $expires_time, then the secure cookie will never be expired.
+
+== secure_cookie_md5 ==
+
+'''syntax:'''''secure_cookie_md5 $the_string_you_want_to_hashed_by_md5''
+
+'''default:''' ''none''
+
+'''context:''' ''http, server, location''
+
+'''description:''' This directive specifies the string you want to be hashed by MD5. The string can include variables. This hash value will compare with the $md5_hash which set by "secure_cookie". If the result is the same, the variable of $secure_cookie is '1', else it's null string.
+
+
+= Variables =
+
+== $secure_cookie ==
+
+'''description:''' If every thing is fine, $secure_cookie is equal to '1'. If the local time has exceeded the $expires_time, $secure_cookie is equal to '0'. Otherwise, it's null string.
+
+
+= Installation =
+
+Download the latest version of the release tarball of this module from [https://github.com/yaoweibin/nginx_secure_cookie_module github].
+
+Grab the nginx source code from [http://nginx.org/ nginx.org], for example, the version 0.8.54 (see nginx compatibility), and then build the source with this module:
+
+<geshi lang="bash">
+    $ wget 'http://nginx.org/download/nginx-0.8.54.tar.gz'
+    $ tar -xzvf nginx-0.8.54.tar.gz
+    $ cd nginx-0.8.54/
+
+    $ ./configure --add-module=/path/to/nginx_secure_cookie_module 
+
+    $ make
+    $ make install
+</geshi>
+
+    
+= Compatibility =
+
+* My test bed is 0.8.53.
+
+
+= TODO =
+
+
+= Known Issues =
+
+* Developing  
+
+
+= Changelogs =
+
+== v0.1 ==
+* first release
+
+
+= Authors =
+
+Weibin Yao(姚伟斌) ''yaoweibin at gmail dot com''
+
+
+= Copyright & License =
+
+I borrow most of the code from the [http://wiki.nginx.org/HttpSecureLinkModule nginx_secure_link_module].
+
+This README template copy from [http://github.com/agentzh agentzh].
+
+This module is licensed under the BSD license.
+
+Copyright (C) 2010 by Weibin Yao <yaoweibin@gmail.com>.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
