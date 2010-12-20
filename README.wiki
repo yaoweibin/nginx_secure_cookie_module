@@ -70,7 +70,7 @@ And the request example is like this:
 
 = Description =
 
-Add the support of secure cookie with Nginx. This module can be use to verify secure cookie for some real requests and deny any fake request.
+Add the support of secure cookie with Nginx. This module can be used to add and verify secure cookie for some real requests and deny any malevolent request.
 
 = Directives =
 
@@ -104,7 +104,7 @@ hash_string := base64(md5($the_string_you_want_to_hashed_by_md5));
 
 '''context:''' ''http, server, location''
 
-'''description:'''  Set the expires time for the secure cookie. It's use to produce the variable $secure_cookie_set_md5. Default expire time is 1 day. The unit of time can be: s(second,default), m(minute), h(hour), d(day), w(week), M(month), y(year).
+'''description:'''  Set the expires time for the secure cookie. It's used to produce the variable $secure_cookie_set_expires. Default expire time is 1 day. The unit of time can be: s(second,default), m(minute), h(hour), d(day), w(week), M(month), y(year).
 
 = Variables =
 
@@ -114,11 +114,11 @@ hash_string := base64(md5($the_string_you_want_to_hashed_by_md5));
 
 == $secure_cookie_set_md5 ==
 
-'''description:''' The result of equation in the directive "secure_cookie_md5".
+'''description:''' The result of hash value with the string specified in the directive "secure_cookie_md5".
 
 == $secure_cookie_set_expires ==
 
-'''description:''' This variable equals to now plus the expires time which set by "secure_cookie_expires".
+'''description:''' This variable equals to current seconds plus the expires time which set by "secure_cookie_expires".
 
 = Installation =
 

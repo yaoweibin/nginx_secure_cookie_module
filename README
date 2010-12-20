@@ -59,8 +59,9 @@ examples
      $wget -d --header="Cookie: CAPTCHA_SESSION=k7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708" http://your_host/
 
 Description
-    Add the support of secure cookie with Nginx. This module can be use to
-    verify secure cookie for some real requests and deny any fake request.
+    Add the support of secure cookie with Nginx. This module can be used to
+    add and verify secure cookie for some real requests and deny any
+    malevolent request.
 
 Directives
   secure_cookie
@@ -96,9 +97,9 @@ Directives
 
     context: *http, server, location*
 
-    description: Set the expires time for the secure cookie. It's use to
-    produce the variable $secure_cookie_set_md5. Default expire time is 1
-    day. The unit of time can be: s(second,default), m(minute), h(hour),
+    description: Set the expires time for the secure cookie. It's used to
+    produce the variable $secure_cookie_set_expires. Default expire time is
+    1 day. The unit of time can be: s(second,default), m(minute), h(hour),
     d(day), w(week), M(month), y(year).
 
 Variables
@@ -110,12 +111,12 @@ Variables
     it's null string.
 
   $secure_cookie_set_md5
-    description: The result of equation in the directive
-    "secure_cookie_md5".
+    description: The result of hash value with the string specified in the
+    directive "secure_cookie_md5".
 
   $secure_cookie_set_expires
-    description: This variable equals to now plus the expires time which set
-    by "secure_cookie_expires".
+    description: This variable equals to current seconds plus the expires
+    time which set by "secure_cookie_expires".
 
 Installation
     Download the latest version of the release tarball of this module from

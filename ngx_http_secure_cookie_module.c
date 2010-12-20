@@ -14,11 +14,6 @@ typedef struct {
 } ngx_http_secure_cookie_conf_t;
 
 
-typedef struct {
-    ngx_str_t                  expires;
-} ngx_http_secure_cookie_ctx_t;
-
-
 static ngx_int_t ngx_http_secure_cookie_set_md5_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data);
 static ngx_int_t ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
@@ -106,7 +101,6 @@ ngx_http_secure_cookie_variable(ngx_http_request_t *r,
     ngx_str_t                       val, hash;
     time_t                          expires;
     ngx_md5_t                       md5;
-    ngx_http_secure_cookie_ctx_t   *ctx;
     ngx_http_secure_cookie_conf_t  *conf;
 
     conf = ngx_http_get_module_loc_conf(r, ngx_http_secure_cookie_module);
@@ -134,16 +128,6 @@ ngx_http_secure_cookie_variable(ngx_http_request_t *r,
         if (expires <= 0) {
             goto not_found;
         }
-
-        ctx = ngx_pcalloc(r->pool, sizeof(ngx_http_secure_cookie_ctx_t));
-        if (ctx == NULL) {
-            return NGX_ERROR;
-        }
-
-        ngx_http_set_ctx(r, ctx, ngx_http_secure_cookie_module);
-
-        ctx->expires.len = last - p;
-        ctx->expires.data = p;
     }
 
     if (val.len > 24) {
@@ -250,7 +234,7 @@ static ngx_int_t
 ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data)
 {
-    u_char                          *last, *time;
+    u_char                         *last, *time;
     time_t                          expires;
     ngx_http_secure_cookie_conf_t  *sclcf;
 
