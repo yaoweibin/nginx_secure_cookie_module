@@ -31,7 +31,8 @@ examples
         }
 
         if ($secure_cookie = "0") {
-            return 403;
+            #rewrite ^.*$ http://the_captcha_server/ last;
+            rewrite ^.*$ /set_secure_cookie$request_uri last;
         }
 
         root   html;
