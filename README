@@ -48,16 +48,17 @@ examples
         secure_expires  3600;
         secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
 
-        add_header Location "http://your_host$request_uri";
-        add_header Set-Cookie "CAPTCHA_SESSION=$secure_cookie_set_md5";
-        add_header Set-Cookie "CAPTCHA_EXPIRES=$secure_cookie_set_expires";
+        add_header Set-Cookie "CAPTCHA_SESSION=$secure_cookie_set_md5; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
+        add_header Set-Cookie "CAPTCHA_EXPIRES=$secure_cookie_set_expires; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
+
+        rewrite ^.*$ http://www.your_host.com/index.html last;
 
         return 302;
     }
 
     And the request example is like this:
 
-     $wget -d --header="Cookie: CAPTCHA_SESSION=k7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708" http://your_host/
+     $wget -d --header="Cookie: CAPTCHA_SESSION=uHYYvMzm4m2WQweGD8nu2g==; CAPTCHA_EXPIRES=Tue, 04-Jan-11 08:28:40 GMT" http://your_host/
 
 Description
     Add the support of secure cookie with Nginx. This module can be used to
@@ -75,8 +76,9 @@ Directives
     description: This directive specifies the MD5 hash value and the expires
     time of this secure cookie. The $md5_hash should equal to the hash value
     of string which specified by "secure_cookie_md5". The $expires_time is
-    the seconds since 1970-01-01 00:00:00 UTC. If you did not add the
-    $expires_time, then the secure cookie will never be expired.
+    the expires time of this cookie. It is specified in the "Wdy,
+    DD-Mon-YYYY HH:MM:SS GMT" format. If you did not add the $expires_time,
+    then the secure cookie will never be expired.
 
   secure_cookie_md5
     syntax:*secure_cookie_md5 $the_string_you_want_to_hashed_by_md5*
@@ -116,8 +118,9 @@ Variables
     directive "secure_cookie_md5".
 
   $secure_cookie_set_expires
-    description: This variable equals to current seconds plus the expires
-    time which set by "secure_cookie_expires".
+    description: This variable equals to current time plus the expires time
+    which set by "secure_cookie_expires". The format is also like "Wdy,
+    DD-Mon-YYYY HH:MM:SS GMT".
 
 Installation
     Download the latest version of the release tarball of this module from

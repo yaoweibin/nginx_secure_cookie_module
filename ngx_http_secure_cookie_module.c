@@ -124,7 +124,7 @@ ngx_http_secure_cookie_variable(ngx_http_request_t *r,
     if (p) {
         val.len = p++ - val.data;
 
-        expires = ngx_atotm(p, last - p);
+        expires = ngx_http_parse_time(p, last - p);
         if (expires <= 0) {
             goto not_found;
         }
@@ -243,14 +243,14 @@ ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
         goto not_found;
     }
 
-    time = ngx_palloc(r->pool, 64);
+    time = ngx_palloc(r->pool, sizeof("Mon, 28 Sep 1970 06:00:00 GMT"));
     if (time == NULL) {
         goto not_found;
     }
 
     expires = ngx_time() + sclcf->expires;
 
-    last = ngx_snprintf(time, 64, "%T", expires);
+    last = ngx_http_cookie_time(time, expires);
 
     v->len = last - time;
     v->valid = 1;
