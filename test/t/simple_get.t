@@ -50,7 +50,7 @@ server {
     }
 }
 --- request_headers
-Cookie: CAPTCHA_SESSION=k7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708
+Cookie: CAPTCHA_SESSION=ejVtUc+8FfjNd2TfCuxzOw==; CAPTCHA_EXPIRES=Mon, 04-Jan-16 06:41:02 GMT
 --- request
 GET /
 --- response_body_like: ^.*$
@@ -78,7 +78,7 @@ server {
     }
 }
 --- request_headers
-Cookie: CAPTCHA_SESSION=7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=1392559708
+Cookie: CAPTCHA_SESSION=jVtUc+8FfjNd2TfCuxzOw==; CAPTCHA_EXPIRES=Mon, 04-Jan-16 06:41:02 GMT
 --- request
 GET /
 --- error_code: 403
@@ -107,7 +107,7 @@ server {
     }
 }
 --- request_headers
-Cookie: CAPTCHA_SESSION=7nV0tpVhGgxpP7Tz9JzVA==; CAPTCHA_EXPIRES=392559708
+Cookie: CAPTCHA_SESSION=ejVtUc+8FfjNd2TfCuxzOw==; CAPTCHA_EXPIRES=Mon, 4-Jan-16 06:41:02 GMT
 --- request
 GET /
 --- error_code: 403
