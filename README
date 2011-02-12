@@ -44,7 +44,7 @@ examples
      #Nginx or by your application.
 
     location /set_secure_cookie {
-
+        internal;
         secure_expires  3600;
         secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
 
