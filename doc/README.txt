@@ -11,19 +11,20 @@ Status
 
 examples
   a simple example
+    This module is usally used with the reCAPTCHA module, See also:
+    https://github.com/yaoweibin/nginx_http_recaptcha_module
+
     location / {
 
         secure_cookie $cookie_CAPTCHA_SESSION,$cookie_CAPTCHA_EXPIRES;
         secure_cookie_md5 private_key$binary_remote_addr$cookie_CAPTCHA_EXPIRES;
 
         if ($cookie_CAPTCHA_SESSION = "") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         if ($cookie_CAPTCHA_EXPIRES = "") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         if ($secure_cookie = "") {
@@ -31,8 +32,7 @@ examples
         }
 
         if ($secure_cookie = "0") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         root   html;
@@ -45,6 +45,7 @@ examples
 
     location /set_secure_cookie {
 
+        internal;
         secure_expires  3600;
         secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
 

@@ -14,6 +14,8 @@ We need your help! If you find this module useful and/or interesting, please con
 
 == a simple example ==
 
+This module is usally used with the reCAPTCHA module, See also: https://github.com/yaoweibin/nginx_http_recaptcha_module 
+
 <geshi lang="nginx">
 
 location / {
@@ -22,13 +24,11 @@ location / {
     secure_cookie_md5 private_key$binary_remote_addr$cookie_CAPTCHA_EXPIRES;
 
     if ($cookie_CAPTCHA_SESSION = "") {
-        #rewrite ^.*$ http://the_captcha_server/ last;
-        rewrite ^.*$ /set_secure_cookie$request_uri last;
+        rewrite ^.*$ http://the_captcha_server/ redirect;
     }
 
     if ($cookie_CAPTCHA_EXPIRES = "") {
-        #rewrite ^.*$ http://the_captcha_server/ last;
-        rewrite ^.*$ /set_secure_cookie$request_uri last;
+        rewrite ^.*$ http://the_captcha_server/ redirect;
     }
 
     if ($secure_cookie = "") {
@@ -36,8 +36,7 @@ location / {
     }
 
     if ($secure_cookie = "0") {
-        #rewrite ^.*$ http://the_captcha_server/ last;
-        rewrite ^.*$ /set_secure_cookie$request_uri last;
+        rewrite ^.*$ http://the_captcha_server/ redirect;
     }
 
     root   html;
@@ -50,6 +49,7 @@ location / {
 
 location /set_secure_cookie {
 
+    internal;
     secure_expires  3600;
     secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
 

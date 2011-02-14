@@ -10,10 +10,10 @@ Status
     please consider joining the development!
 
 examples
-  This module is usally used with the reCAPTCHA module, See also: 
-  https://github.com/yaoweibin/nginx_http_recaptcha_module 
-
   a simple example
+    This module is usally used with the reCAPTCHA module, See also:
+    https://github.com/yaoweibin/nginx_http_recaptcha_module
+
     location / {
 
         secure_cookie $cookie_CAPTCHA_SESSION,$cookie_CAPTCHA_EXPIRES;
@@ -44,6 +44,7 @@ examples
      #Nginx or by your application.
 
     location /set_secure_cookie {
+
         internal;
         secure_expires  3600;
         secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
