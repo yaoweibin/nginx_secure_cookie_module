@@ -10,6 +10,9 @@ Status
     please consider joining the development!
 
 examples
+  This module is usally used with the reCAPTCHA module, See also: 
+  https://github.com/yaoweibin/nginx_http_recaptcha_module 
+
   a simple example
     location / {
 
@@ -17,13 +20,11 @@ examples
         secure_cookie_md5 private_key$binary_remote_addr$cookie_CAPTCHA_EXPIRES;
 
         if ($cookie_CAPTCHA_SESSION = "") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         if ($cookie_CAPTCHA_EXPIRES = "") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         if ($secure_cookie = "") {
@@ -31,8 +32,7 @@ examples
         }
 
         if ($secure_cookie = "0") {
-            #rewrite ^.*$ http://the_captcha_server/ last;
-            rewrite ^.*$ /set_secure_cookie$request_uri last;
+            rewrite ^.*$ http://the_captcha_server/ redirect;
         }
 
         root   html;
