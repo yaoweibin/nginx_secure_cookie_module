@@ -47,10 +47,10 @@ examples
 
         internal;
         secure_expires  3600;
-        secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires;
+        secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires_base64;
 
         add_header Set-Cookie "CAPTCHA_SESSION=$secure_cookie_set_md5; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
-        add_header Set-Cookie "CAPTCHA_EXPIRES=$secure_cookie_set_expires; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
+        add_header Set-Cookie "CAPTCHA_EXPIRES=$secure_cookie_set_expires_base64; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
 
         rewrite ^.*$ http://www.your_host.com/index.html last;
 
@@ -59,7 +59,7 @@ examples
 
     And the request example is like this:
 
-     $wget -d --header="Cookie: CAPTCHA_SESSION=uHYYvMzm4m2WQweGD8nu2g==; CAPTCHA_EXPIRES=Tue, 04-Jan-11 08:28:40 GMT" http://your_host/
+     $wget -d --header="Cookie: CAPTCHA_SESSION=uHYYvMzm4m2WQweGD8nu2g==; CAPTCHA_EXPIRES=TW9uLCAyOS1GZWItMTYgMDg6NDQ6NTkgR01U" http://your_host/
 
 Description
     Add the support of secure cookie with Nginx. This module can be used to
@@ -68,7 +68,7 @@ Description
 
 Directives
   secure_cookie
-    syntax:*secure_cookie $md5_hash[,$expires_time]*
+    syntax:*secure_cookie $md5_hash[,$expires_time_base64]*
 
     default: *none*
 
@@ -78,8 +78,8 @@ Directives
     time of this secure cookie. The $md5_hash should equal to the hash value
     of string which specified by "secure_cookie_md5". The $expires_time is
     the expires time of this cookie. It is specified in the "Wdy,
-    DD-Mon-YYYY HH:MM:SS GMT" format. If you did not add the $expires_time,
-    then the secure cookie will never be expired.
+    DD-Mon-YYYY HH:MM:SS GMT" format and encoded by base64. If you did not
+    add the $expires_time, then the secure cookie will never be expired.
 
   secure_cookie_md5
     syntax:*secure_cookie_md5 $the_string_you_want_to_hashed_by_md5*
@@ -123,6 +123,10 @@ Variables
     which set by "secure_cookie_expires". The format is also like "Wdy,
     DD-Mon-YYYY HH:MM:SS GMT".
 
+  $secure_cookie_set_expires_base64
+    description: This variable is the base64 value of
+    $secure_cookie_set_expires.
+
 Installation
     Download the latest version of the release tarball of this module from
     github (<https://github.com/yaoweibin/nginx_secure_cookie_module>).
@@ -141,7 +145,7 @@ Installation
         $ make install
 
 Compatibility
-    *   My test bed is 0.8.53.
+    *   My test bed is 0.8.54.
 
 TODO
 Known Issues
