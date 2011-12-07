@@ -9,6 +9,7 @@
 typedef struct {
     ngx_http_complex_value_t  *variable;
     ngx_http_complex_value_t  *md5;
+    ngx_http_complex_value_t  *md5_number;
     
     time_t                     expires;
 } ngx_http_secure_cookie_conf_t;
@@ -17,6 +18,8 @@ typedef struct {
 static ngx_int_t ngx_http_secure_cookie_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data);
 static ngx_int_t ngx_http_secure_cookie_set_md5_variable(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data);
+static ngx_int_t ngx_http_secure_cookie_md5_number(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data);
 static ngx_int_t ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data);
@@ -43,6 +46,13 @@ static ngx_command_t  ngx_http_secure_cookie_commands[] = {
       ngx_http_set_complex_value_slot,
       NGX_HTTP_LOC_CONF_OFFSET,
       offsetof(ngx_http_secure_cookie_conf_t, md5),
+      NULL },
+
+    { ngx_string("secure_cookie_md5_to_number"),
+      NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
+      ngx_http_set_complex_value_slot,
+      NGX_HTTP_LOC_CONF_OFFSET,
+      offsetof(ngx_http_secure_cookie_conf_t, md5_number),
       NULL },
 
     { ngx_string("secure_cookie_expires"),
@@ -95,6 +105,10 @@ static ngx_http_variable_t  ngx_http_secure_cookie_vars[] = {
 
     { ngx_string("secure_cookie_set_md5"), NULL,
       ngx_http_secure_cookie_set_md5_variable, 0,
+      NGX_HTTP_VAR_NOHASH, 0 },
+
+    { ngx_string("secure_cookie_md5_number"), NULL,
+      ngx_http_secure_cookie_md5_number, 0,
       NGX_HTTP_VAR_NOHASH, 0 },
 
     { ngx_string("secure_cookie_set_expires"), NULL,
@@ -265,6 +279,61 @@ not_found:
 
 
 static ngx_int_t
+ngx_http_secure_cookie_md5_number(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data)
+{
+    u_char                          *last;
+    ngx_str_t                        number, val;
+    ngx_uint_t                       hash;
+    ngx_http_secure_cookie_conf_t   *sclcf;
+
+    sclcf = ngx_http_get_module_loc_conf(r, ngx_http_secure_cookie_module);
+    if (sclcf == NULL) {
+        goto not_found;
+    }
+
+    if (ngx_http_complex_value(r, sclcf->md5_number, &val) != NGX_OK) {
+        goto not_found;
+    }
+
+    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                   "secure cookie md5 number base string: \"%V\"", &val);
+
+    if (val.len == 0) {
+        goto not_found;
+    }
+
+    hash = ngx_hash_key(val.data, val.len);
+
+    number.len = 32;
+    number.data = ngx_pcalloc(r->pool, number.len);
+    if (number.data == NULL) {
+        goto not_found;
+    }
+
+    last = ngx_snprintf(number.data, number.len, "%ud", hash);
+    number.len = last - number.data;
+
+    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                   "secure cookie md5 number: \"%V\"", &number);
+
+    v->len = number.len;
+    v->valid = 1;
+    v->no_cacheable = 0;
+    v->not_found = 0;
+    v->data = number.data;
+
+    return NGX_OK;
+
+not_found:
+
+    v->not_found = 1;
+
+    return NGX_OK;
+}
+
+
+static ngx_int_t
 ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data)
 {
@@ -362,9 +431,10 @@ ngx_http_secure_cookie_create_conf(ngx_conf_t *cf)
     /*
      * set by ngx_pcalloc():
      *
-     *     conf->variable = NULL;
-     *     conf->md5 = NULL;
-     *     conf->expires = 0;
+     *     conf->variable   = NULL;
+     *     conf->md5        = NULL;
+     *     conf->md5_number = NULL;
+     *     conf->expires    = 0;
      */
 
     conf->expires = NGX_CONF_UNSET;
@@ -385,6 +455,10 @@ ngx_http_secure_cookie_merge_conf(ngx_conf_t *cf, void *parent, void *child)
 
     if (conf->md5 == NULL) {
         conf->md5 = prev->md5;
+    }
+
+    if (conf->md5_number == NULL) {
+        conf->md5_number = prev->md5_number;
     }
 
     ngx_conf_merge_sec_value(conf->expires, prev->expires, 24 * 60 * 60);
