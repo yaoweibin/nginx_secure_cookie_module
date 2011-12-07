@@ -14,6 +14,8 @@ typedef struct {
 } ngx_http_secure_cookie_conf_t;
 
 
+static ngx_int_t ngx_http_secure_cookie_variable(ngx_http_request_t *r,
+    ngx_http_variable_value_t *v, uintptr_t data);
 static ngx_int_t ngx_http_secure_cookie_set_md5_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data);
 static ngx_int_t ngx_http_secure_cookie_set_expires_variable(ngx_http_request_t *r,
@@ -85,16 +87,27 @@ ngx_module_t  ngx_http_secure_cookie_module = {
 };
 
 
-static ngx_str_t  ngx_http_secure_cookie_name = ngx_string("secure_cookie");
+static ngx_http_variable_t  ngx_http_secure_cookie_vars[] = {
 
-static ngx_str_t  ngx_http_secure_cookie_set_md5_name = 
-ngx_string("secure_cookie_set_md5");
+    { ngx_string("secure_cookie"), NULL,
+      ngx_http_secure_cookie_variable, 0,
+      NGX_HTTP_VAR_NOHASH, 0 },
 
-static ngx_str_t  ngx_http_secure_cookie_set_expires_name = 
-ngx_string("secure_cookie_set_expires");
+    { ngx_string("secure_cookie_set_md5"), NULL,
+      ngx_http_secure_cookie_set_md5_variable, 0,
+      NGX_HTTP_VAR_NOHASH, 0 },
 
-static ngx_str_t  ngx_http_secure_cookie_set_expires_base64_name = 
-ngx_string("secure_cookie_set_expires_base64");
+    { ngx_string("secure_cookie_set_expires"), NULL,
+      ngx_http_secure_cookie_set_expires_variable, 0,
+      NGX_HTTP_VAR_NOHASH, 0 },
+
+    { ngx_string("secure_cookie_set_expires_base64"), NULL,
+      ngx_http_secure_cookie_set_expires_base64_variable, 0,
+      NGX_HTTP_VAR_NOHASH, 0 },
+
+    { ngx_null_string, NULL, NULL, 0, 0, 0 }
+};
+
 
 static ngx_int_t
 ngx_http_secure_cookie_variable(ngx_http_request_t *r,
@@ -383,35 +396,17 @@ ngx_http_secure_cookie_merge_conf(ngx_conf_t *cf, void *parent, void *child)
 static ngx_int_t
 ngx_http_secure_cookie_add_variables(ngx_conf_t *cf)
 {
-    ngx_http_variable_t  *var;
+    ngx_http_variable_t  *var, *v;
 
-    var = ngx_http_add_variable(cf, &ngx_http_secure_cookie_name, 0);
-    if (var == NULL) {
-        return NGX_ERROR;
+    for (v = ngx_http_secure_cookie_vars; v->name.len; v++) {
+        var = ngx_http_add_variable(cf, &v->name, v->flags);
+        if (var == NULL) {
+            return NGX_ERROR;
+        }
+
+        var->get_handler = v->get_handler;
+        var->data = v->data;
     }
-
-    var->get_handler = ngx_http_secure_cookie_variable;
-
-    var = ngx_http_add_variable(cf, &ngx_http_secure_cookie_set_md5_name, 0);
-    if (var == NULL) {
-        return NGX_ERROR;
-    }
-
-    var->get_handler = ngx_http_secure_cookie_set_md5_variable;
-
-    var = ngx_http_add_variable(cf, &ngx_http_secure_cookie_set_expires_name, 0);
-    if (var == NULL) {
-        return NGX_ERROR;
-    }
-
-    var->get_handler = ngx_http_secure_cookie_set_expires_variable;
-
-    var = ngx_http_add_variable(cf, &ngx_http_secure_cookie_set_expires_base64_name, 0);
-    if (var == NULL) {
-        return NGX_ERROR;
-    }
-
-    var->get_handler = ngx_http_secure_cookie_set_expires_base64_variable;
 
     return NGX_OK;
 }
