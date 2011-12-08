@@ -292,6 +292,10 @@ ngx_http_secure_cookie_md5_number(ngx_http_request_t *r,
         goto not_found;
     }
 
+    if (slcf->md5_number == NULL) {
+        goto not_found;
+    }
+
     if (ngx_http_complex_value(r, sclcf->md5_number, &val) != NGX_OK) {
         goto not_found;
     }
