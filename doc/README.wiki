@@ -50,7 +50,7 @@ location / {
 location /set_secure_cookie {
 
     internal;
-    secure_expires  3600;
+    secure_cookie_expires  3600;
     secure_cookie_md5 private_key$binary_remote_addr$secure_cookie_set_expires_base64;
 
     add_header Set-Cookie "CAPTCHA_SESSION=$secure_cookie_set_md5; expires=$secure_cookie_set_expires; path=/; domain=.yourhost.com";
