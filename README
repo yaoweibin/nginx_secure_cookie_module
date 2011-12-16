@@ -94,6 +94,16 @@ Directives
 
     hash_string := base64(md5($the_string_you_want_to_hashed_by_md5));
 
+  secure_cookie_md5_to_number
+    syntax:*secure_cookie_md5_to_number $secure_cookie_set_md5*
+
+    default: *none*
+
+    context: *http, server, location*
+
+    description: This directive can map the md5 string to a 32 integer
+    number.
+
   secure_cookie_expires
     syntax:*secure_cookie_expires expires_time*
 
@@ -126,6 +136,10 @@ Variables
   $secure_cookie_set_expires_base64
     description: This variable is the base64 value of
     $secure_cookie_set_expires.
+
+  $secure_cookie_md5_number
+    description: This variable is the integer number value of the variable
+    which you specify in 'secure_cookie_md5_to_number'.
 
 Installation
     Download the latest version of the release tarball of this module from
